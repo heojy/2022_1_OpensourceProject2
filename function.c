@@ -3,11 +3,8 @@
 NODE* Head = NULL;
 NODE* Tail = NULL;
 
-
 float rating_sum = 0;
 int credit_sum = 0;
-
-//char excel_name[10];
 
 int essential_major_credit;
 int choice_major_credit;
@@ -19,29 +16,25 @@ int credit2 = 0;
 float rating1 = 0;
 float rating2 = 0;
 
-
 void AddNode(GRADE _GRADE) {
 	NODE* NewNode = (NODE*)malloc(sizeof(NODE));
-	//printf("newnode 생성\n");
 	NewNode->grade = _GRADE;
 	NewNode->Next = NULL;
-	//printf("newnode 저장\n");
+
 	if (Head == NULL) {
-		//printf("헤드가 null\n");
 		Head = NewNode;
 	}
 	else
 		Tail->Next = NewNode;
-	//printf("헤드 테일 저장\n");
 	Tail = NewNode;
-	//printf("!");
 }
 
 void init() {
-	FILE *p_file = NULL;  // 파일을 열어서 사용할 파일 포인터!
-	// fopen_s 함수를 사용하여 'grd_sbjtGrade1.csv' 파일을 텍스트 형식의 읽기 모드로 연다!
-	// 이 함수는 파일 열기에 성공했다면 0을 반환한다.
+	FILE *p_file = NULL;  // 파일을 열어서 사용할 파일 포인터
 	strcat(excel_name, ".csv");
+
+	// fopen_s 함수를 사용하여 파일을 텍스트 형식의 읽기 모드로 연다!
+	// 이 함수는 파일 열기에 성공했다면 0을 반환한다.
 	if (0 == fopen_s(&p_file, excel_name, "rt")) {
 		// 파일에서 한 줄의 정보를 읽어서 저장할 변수
 		char one_line_string[128];
@@ -133,7 +126,8 @@ void DisplayGrade(GRADE* pGrade) {
 
 void GradeIndex() {
 	printf("\n\n%3s \t %4s \t %4s  %5s \t %10s \t %3s \t %30s \t %2s \t %10s \t %20s \t %3s \t %4s \t %10s \n\n",
-		"순번", "년도", "학기유형", "학기", "교과목번호", "분반", "교과목명", "학점", "이수구분", "영역구분", "등급", "평점", "학점구분");
+		"순번", "년도", "학기유형", "학기", "교과목번호", "분반", 
+		"교과목명", "학점", "이수구분", "영역구분", "등급", "평점", "학점구분");
 }
 
 void DisplayGradeData() {
@@ -207,19 +201,15 @@ void calculate_compare_grade(GRADE* pGrade) {
 
 	if ((pGrade->year == y1) && (strcmp(pGrade->semester, s1) == 0)) {
 		credit1 += pGrade->credit;
-		rating1 += pGrade->grade;
-	}
-	
+		rating1 += pGrade->grade;}
 	else if ((pGrade->year == y2) && (strcmp(pGrade->semester, s2) == 0)) {
 		credit2 += pGrade->credit;
-		rating2 += pGrade->grade;
-	}
+		rating2 += pGrade->grade;}
 }
 
 void compare_mycredit() {
 
 	NODE *Cur = Head;
-
 	if (Head == NULL) {
 		printf("데이터 없음\n");
 		return;
@@ -233,14 +223,11 @@ void compare_mycredit() {
 	float mycredit2 = (float)rating2 / credit2;
 	printf("\n%d학년도 %s의 학점 : %f \n%d학년도 %s의 학점 : %f ", y1, s1, mycredit1, y2, s2, mycredit2);
 	if (mycredit1 > mycredit2) {
-		printf("\n%d학년도 %s가 %d학년도 %s 보다 %f학점 높네요.\n", y1, s1, y2, s2, mycredit1 - mycredit2);
-	}
+		printf("\n%d학년도 %s가 %d학년도 %s 보다 %f학점 높네요.\n", y1, s1, y2, s2, mycredit1 - mycredit2); }
 	else if ((mycredit1) < (mycredit2)) {
-		printf("\n%d학년도 %s가 %d학년도 %s 보다 %f학점 높네요.\n", y2, s2, y1, s1, mycredit2 - mycredit1);
-	}
+		printf("\n%d학년도 %s가 %d학년도 %s 보다 %f학점 높네요.\n", y2, s2, y1, s1, mycredit2 - mycredit1);}
 	else {
-		printf("%d학년도 %s와 %d학년도 %s의 학점이 %f 로 같아요.\n", y1, s1, y2, s2, mycredit1);
-	}
+		printf("%d학년도 %s와 %d학년도 %s의 학점이 %f 로 같아요.\n", y1, s1, y2, s2, mycredit1);}
 }
 void DeleteInfo(GRADE* pGrade) {
 	if (pGrade->semester_type != NULL)
@@ -266,15 +253,12 @@ void DeleteAllData() {
 
 	if (Head == NULL)
 		return;
-
-	while (Cur != NULL)
-	{
+	while (Cur != NULL) {
 		Del = Cur;
 		Cur = Cur->Next;
 		DeleteInfo(&(Del->grade));
 		free(Del);
 	}
-
 	Head = Tail = NULL;
 	printf("프로그램을 종료합니다.");
 }
